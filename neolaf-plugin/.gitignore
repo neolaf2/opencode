@@ -1,5 +1,2 @@
 __pycache__/
 *.pyc
-db/episodes/*.json
-db/index/*.json
-!db/schema/*.json
