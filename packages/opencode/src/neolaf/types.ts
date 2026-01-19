@@ -15,7 +15,7 @@ import z from "zod"
  * Operating mode determines whether the agent is learning new skills
  * or executing with established competence.
  */
-export const OperatingMode = z.enum(["learning", "performance"]).meta({ ref: "OperatingMode" })
+export const OperatingMode = z.enum(["learning", "performance"])
 export type OperatingMode = z.infer<typeof OperatingMode>
 
 /**
@@ -30,7 +30,6 @@ export const SkillMaturity = z
     "created", // Level 4: Can generate variations
     "innovated", // Level 5: Can create novel approaches
   ])
-  .meta({ ref: "SkillMaturity" })
 export type SkillMaturity = z.infer<typeof SkillMaturity>
 
 /**
@@ -46,29 +45,36 @@ export const SituationVector = z
     domain: z.string().describe("Problem domain or knowledge area"),
     protocol: z.string().describe("Interaction protocol or constraints"),
     now: z.string().describe("Current state or timestamp (ISO 8601)"),
-    metadata: z.record(z.unknown()).optional().describe("Additional contextual data"),
+    metadata: z.record(z.string(), z.unknown()).optional().describe("Additional contextual data"),
   })
-  .meta({ ref: "SituationVector" })
 export type SituationVector = z.infer<typeof SituationVector>
 
 /**
  * Task represents a staged goal with success criteria.
  * Tasks can be hierarchical (subtasks) and have constraints.
  */
-export const Task = z
-  .object({
-    id: z.string().describe("Unique task identifier"),
-    goal: z.string().describe("What the task aims to achieve"),
-    stage: z
-      .enum(["pending", "active", "blocked", "completed", "failed"])
-      .default("pending")
-      .describe("Current task stage"),
-    successCriteria: z.array(z.string()).default([]).describe("Measurable criteria for success"),
-    constraints: z.array(z.string()).default([]).describe("Limitations or requirements"),
-    subtasks: z.array(z.lazy(() => Task)).default([]).describe("Hierarchical subtasks"),
-    priority: z.number().min(0).max(10).default(5).describe("Task priority (0-10)"),
-  })
-  .meta({ ref: "Task" })
+interface TaskType {
+  id: string
+  goal: string
+  stage: "pending" | "active" | "blocked" | "completed" | "failed"
+  successCriteria: string[]
+  constraints: string[]
+  subtasks: TaskType[]
+  priority: number
+}
+
+export const Task: z.ZodType<TaskType> = z.object({
+  id: z.string().describe("Unique task identifier"),
+  goal: z.string().describe("What the task aims to achieve"),
+  stage: z
+    .enum(["pending", "active", "blocked", "completed", "failed"])
+    .default("pending")
+    .describe("Current task stage"),
+  successCriteria: z.array(z.string()).default([]).describe("Measurable criteria for success"),
+  constraints: z.array(z.string()).default([]).describe("Limitations or requirements"),
+  subtasks: z.array(z.lazy(() => Task)).default([]).describe("Hierarchical subtasks"),
+  priority: z.number().min(0).max(10).default(5).describe("Task priority (0-10)"),
+})
 export type Task = z.infer<typeof Task>
 
 /**
@@ -85,7 +91,6 @@ export const Emotion = z
     valence: z.enum(["positive", "negative", "neutral"]).default("neutral").describe("Emotional valence"),
     arousal: z.number().min(0).max(1).default(0.5).describe("Activation level (0-1)"),
   })
-  .meta({ ref: "Emotion" })
 export type Emotion = z.infer<typeof Emotion>
 
 /**
@@ -96,19 +101,18 @@ export const Action = z
   .object({
     type: z.string().describe("Action type identifier"),
     skillUsed: z.string().optional().describe("Skill ID if a skill was invoked"),
-    parameters: z.record(z.unknown()).default({}).describe("Action parameters"),
+    parameters: z.record(z.string(), z.unknown()).default({}).describe("Action parameters"),
     toolCalls: z
       .array(
         z.object({
           tool: z.string(),
-          input: z.record(z.unknown()),
+          input: z.record(z.string(), z.unknown()),
           output: z.unknown().optional(),
         }),
       )
       .default([])
       .describe("Tool invocations during action"),
   })
-  .meta({ ref: "Action" })
 export type Action = z.infer<typeof Action>
 
 /**
@@ -129,7 +133,7 @@ export const Result = z
       .optional()
       .describe("Performance metrics"),
   })
-  .meta({ ref: "Result" })
+
 export type Result = z.infer<typeof Result>
 
 /**
@@ -206,9 +210,9 @@ export const KSTARTrace = z
 
     // Metadata
     tags: z.array(z.string()).default([]).describe("Categorical tags"),
-    annotations: z.record(z.unknown()).default({}).describe("Additional annotations"),
+    annotations: z.record(z.string(), z.unknown()).default({}).describe("Additional annotations"),
   })
-  .meta({ ref: "KSTARTrace" })
+
 export type KSTARTrace = z.infer<typeof KSTARTrace>
 
 /**
@@ -223,7 +227,7 @@ export const SkillEpisode = z
     deltaE: z.number().optional().describe("Learning signal from this episode"),
     context: z.string().optional().describe("Brief context description"),
   })
-  .meta({ ref: "SkillEpisode" })
+
 export type SkillEpisode = z.infer<typeof SkillEpisode>
 
 /**
@@ -257,7 +261,7 @@ export const SkillSignature = z
     postconditions: z.array(z.string()).default([]).describe("Conditions guaranteed after successful execution"),
     applicableDomains: z.array(z.string()).default([]).describe("Domains where this skill applies"),
   })
-  .meta({ ref: "SkillSignature" })
+
 export type SkillSignature = z.infer<typeof SkillSignature>
 
 /**
@@ -293,9 +297,9 @@ export const NEOLAFSkillInfo = z
 
     // Tags and metadata
     tags: z.array(z.string()).default([]).describe("Categorical tags"),
-    metadata: z.record(z.unknown()).default({}).describe("Additional metadata"),
+    metadata: z.record(z.string(), z.unknown()).default({}).describe("Additional metadata"),
   })
-  .meta({ ref: "NEOLAFSkillInfo" })
+
 export type NEOLAFSkillInfo = z.infer<typeof NEOLAFSkillInfo>
 
 /**
@@ -313,7 +317,7 @@ export const ModePolicy = z
       .describe("ΔE variance threshold for mode switching"),
     minEpisodesForPerformance: z.number().default(3).describe("Minimum successful episodes before performance mode"),
   })
-  .meta({ ref: "ModePolicy" })
+
 export type ModePolicy = z.infer<typeof ModePolicy>
 
 /**
@@ -328,7 +332,7 @@ export const OracleQuery = z
     question: z.string().describe("Specific question for the oracle"),
     timestamp: z.string().datetime().describe("When the query was made"),
   })
-  .meta({ ref: "OracleQuery" })
+
 export type OracleQuery = z.infer<typeof OracleQuery>
 
 /**
@@ -345,7 +349,7 @@ export const OracleResponse = z
     validationTraceId: z.string().optional().describe("Trace from validation attempt"),
     timestamp: z.string().datetime().describe("When the response was received"),
   })
-  .meta({ ref: "OracleResponse" })
+
 export type OracleResponse = z.infer<typeof OracleResponse>
 
 /**
@@ -374,5 +378,5 @@ export const MemoryBundle = z
       .default({})
       .describe("Summary metadata"),
   })
-  .meta({ ref: "MemoryBundle" })
+
 export type MemoryBundle = z.infer<typeof MemoryBundle>

@@ -54,7 +54,7 @@ export namespace NEOLAF {
           maxTraces: z.number().default(10000).describe("Maximum traces to retain"),
           pruneOlderThan: z.number().default(30).describe("Days after which to prune traces"),
         })
-        .default({})
+        .optional()
         .describe("Memory configuration"),
       modePolicy: z
         .object({
@@ -62,11 +62,11 @@ export namespace NEOLAF {
           performanceThreshold: z.number().default(0.9),
           minEpisodesForPerformance: z.number().default(3),
         })
-        .default({})
+        .optional()
         .describe("Mode switching policy"),
     })
-    .default({})
-    .meta({ ref: "NEOLAFConfig" })
+    .optional()
+
   export type Config = z.infer<typeof Config>
 
   /**
