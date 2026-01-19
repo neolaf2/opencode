@@ -1,0 +1,346 @@
+{
+  "@context": "https://w3id.org/xapi/profiles/context",
+  "id": "https://neolaf.ai/xapi/profiles/kstar",
+  "type": "Profile",
+  "conformsTo": "https://w3id.org/xapi/profiles#1.0",
+  "prefLabel": {
+    "en": "KSTAR Cognitive Cycle Profile"
+  },
+  "definition": {
+    "en": "xAPI Profile for recording KSTAR (Knowledge-Situation-Task-Action-Result) cognitive cycle episodes in learning and agent systems. Designed for capturing structured learning experiences, agent reasoning traces, and reflective learning loops."
+  },
+  "seeAlso": "https://neolaf.ai/docs/kstar",
+  "author": {
+    "type": "Organization",
+    "name": "NEOLAF Inc."
+  },
+  "versions": [
+    {
+      "id": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "generatedAtTime": "2025-01-10T00:00:00Z",
+      "wasRevisionOf": []
+    }
+  ],
+
+  "concepts": [
+    {
+      "id": "https://neolaf.ai/xapi/verbs/understood",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "understood" },
+      "definition": { "en": "Completed the understand stage: parsed goal, identified constraints, defined success criteria." },
+      "relatedMatch": ["http://adlnet.gov/expapi/verbs/completed"]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/planned",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "planned" },
+      "definition": { "en": "Completed the plan stage: generated action sequence, allocated resources, produced forecast." },
+      "relatedMatch": ["http://adlnet.gov/expapi/verbs/planned"]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/executed",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "executed" },
+      "definition": { "en": "Completed the execute stage: performed planned actions, invoked tools, captured outputs." },
+      "relatedMatch": ["http://adlnet.gov/expapi/verbs/completed"]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/validated",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "validated" },
+      "definition": { "en": "Completed the validate stage: checked outputs against success criteria, computed prediction error." },
+      "relatedMatch": ["http://adlnet.gov/expapi/verbs/evaluated"]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/reflected",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "reflected" },
+      "definition": { "en": "Completed the reflect stage: generated AAR, extracted lessons, updated knowledge." },
+      "relatedMatch": ["http://adlnet.gov/expapi/verbs/reflected"]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/forecasted",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "forecasted" },
+      "definition": { "en": "Generated a prediction of expected results before execution." }
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/transitioned",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "transitioned" },
+      "definition": { "en": "Moved from one KSTAR stage to another." }
+    },
+    {
+      "id": "https://neolaf.ai/xapi/verbs/completed-cycle",
+      "type": "Verb",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "completed cycle" },
+      "definition": { "en": "Completed a full KSTAR cognitive cycle from understand through reflect." },
+      "relatedMatch": ["http://adlnet.gov/expapi/verbs/completed"]
+    },
+
+    {
+      "id": "https://neolaf.ai/xapi/activities/kstar-episode",
+      "type": "ActivityType",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "KSTAR Episode" },
+      "definition": { "en": "A single iteration through the KSTAR cognitive cycle, containing knowledge context, situation assessment, task specification, action taken, and result observed." }
+    },
+    {
+      "id": "https://neolaf.ai/xapi/activities/kstar-task",
+      "type": "ActivityType",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "KSTAR Task" },
+      "definition": { "en": "A goal-directed task with staged execution (understand, plan, execute, validate, reflect)." }
+    },
+    {
+      "id": "https://neolaf.ai/xapi/activities/kstar-stage",
+      "type": "ActivityType",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "KSTAR Stage" },
+      "definition": { "en": "A single stage within the KSTAR cycle (understand, plan, execute, validate, reflect)." }
+    },
+    {
+      "id": "https://neolaf.ai/xapi/activities/situation-assessment",
+      "type": "ActivityType",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Situation Assessment" },
+      "definition": { "en": "Assessment of the 4-component situation vector (actor, domain, protocol, now)." }
+    },
+    {
+      "id": "https://neolaf.ai/xapi/activities/after-action-review",
+      "type": "ActivityType",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "After-Action Review" },
+      "definition": { "en": "Reflective review capturing what happened, what worked, lessons learned, and recommendations." }
+    },
+
+    {
+      "id": "https://neolaf.ai/xapi/extensions/knowledge-state",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Knowledge State (K)" },
+      "definition": { "en": "The agent's knowledge state at the time of the episode, including episodic memory summary, semantic knowledge references, and actor model." },
+      "inlineSchema": "{ \"type\": \"object\" }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/situation-vector",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Situation Vector (S)" },
+      "definition": { "en": "The 4-component situation vector: S = ⟨S_A, S_D, S_P, S_N⟩ (actor, domain, protocol, now)." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"actor_state\": { \"type\": \"object\" }, \"domain_state\": { \"type\": \"object\" }, \"protocol_state\": { \"type\": \"object\" }, \"now_state\": { \"type\": \"object\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/actor-state",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Actor State (S_A)" },
+      "definition": { "en": "State of the primary actor including capabilities, preferences, constraints, and goals." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"id\": { \"type\": \"string\" }, \"role\": { \"type\": \"string\" }, \"capabilities\": { \"type\": \"object\" }, \"preferences\": { \"type\": \"object\" }, \"constraints\": { \"type\": \"object\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/domain-state",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Domain State (S_D)" },
+      "definition": { "en": "State of the domain including objective, resources, requirements, and rubrics." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"objective\": { \"type\": \"string\" }, \"domain_type\": { \"type\": \"string\" }, \"resources\": { \"type\": \"array\" }, \"requirements\": { \"type\": \"object\" }, \"rubrics\": { \"type\": \"object\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/protocol-state",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Protocol State (S_P)" },
+      "definition": { "en": "State of the interaction protocol including workflow type, current stage, and interaction pattern." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"workflow_type\": { \"type\": \"string\" }, \"current_stage\": { \"type\": \"string\", \"enum\": [\"understand\", \"plan\", \"execute\", \"validate\", \"reflect\", \"complete\"] }, \"interaction_pattern\": { \"type\": \"string\" }, \"agent_role\": { \"type\": \"string\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/now-state",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Now State (S_N)" },
+      "definition": { "en": "Immediate contextual state including timestamp, available tools, time budget, and session context." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"timestamp\": { \"type\": \"string\", \"format\": \"date-time\" }, \"tools_available\": { \"type\": \"array\" }, \"time_budget_minutes\": { \"type\": \"integer\" }, \"session_context\": { \"type\": \"object\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/task-specification",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Task Specification (T)" },
+      "definition": { "en": "The task structure: T = ⟨goal, stage, success_criteria, constraints⟩." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"id\": { \"type\": \"string\" }, \"goal\": { \"type\": \"string\" }, \"stage\": { \"type\": \"string\" }, \"success_criteria\": { \"type\": \"array\" }, \"constraints\": { \"type\": \"object\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/action-plan",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Action Plan (Â)" },
+      "definition": { "en": "The generated action plan including action sequence, resource allocation, and dependencies." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"actions\": { \"type\": \"array\" }, \"resources\": { \"type\": \"object\" }, \"dependencies\": { \"type\": \"array\" }, \"is_feasible\": { \"type\": \"boolean\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/forecast",
+      "type": "ContextExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Forecast (R̂)" },
+      "definition": { "en": "The predicted result before execution, including expected outcome, success probability, and risks." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"expected_outcome\": { \"type\": \"string\" }, \"success_probability\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }, \"risks\": { \"type\": \"array\" }, \"confidence\": { \"type\": \"number\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/prediction-error",
+      "type": "ResultExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Prediction Error" },
+      "definition": { "en": "The difference between forecasted result (R̂) and actual result (R), used as learning signal." },
+      "inlineSchema": "{ \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/stage-transition",
+      "type": "ResultExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Stage Transition" },
+      "definition": { "en": "Record of stage transition including from-stage, to-stage, and transition reason." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"from_stage\": { \"type\": \"string\" }, \"to_stage\": { \"type\": \"string\" }, \"reason\": { \"type\": \"string\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/aar",
+      "type": "ResultExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "After-Action Review" },
+      "definition": { "en": "Structured reflection on the episode: what happened, what worked, what didn't, lessons learned, recommendations." },
+      "inlineSchema": "{ \"type\": \"object\", \"properties\": { \"what_happened\": { \"type\": \"string\" }, \"what_worked\": { \"type\": \"array\" }, \"what_didnt_work\": { \"type\": \"array\" }, \"lessons_learned\": { \"type\": \"array\" }, \"recommendations\": { \"type\": \"array\" } } }"
+    },
+    {
+      "id": "https://neolaf.ai/xapi/extensions/knowledge-delta",
+      "type": "ResultExtension",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Knowledge Delta" },
+      "definition": { "en": "Changes to knowledge state resulting from this episode, for integration back into K." },
+      "inlineSchema": "{ \"type\": \"object\" }"
+    }
+  ],
+
+  "templates": [
+    {
+      "id": "https://neolaf.ai/xapi/profiles/kstar/templates/episode-statement",
+      "type": "StatementTemplate",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "KSTAR Episode Statement" },
+      "definition": { "en": "Template for recording a complete KSTAR episode." },
+      "verb": "https://neolaf.ai/xapi/verbs/executed",
+      "objectActivityType": "https://neolaf.ai/xapi/activities/kstar-episode",
+      "contextGroupingActivityType": ["https://neolaf.ai/xapi/activities/kstar-task"],
+      "rules": [
+        {
+          "location": "context.extensions['https://neolaf.ai/xapi/extensions/situation-vector']",
+          "presence": "recommended"
+        },
+        {
+          "location": "context.extensions['https://neolaf.ai/xapi/extensions/task-specification']",
+          "presence": "recommended"
+        },
+        {
+          "location": "context.extensions['https://neolaf.ai/xapi/extensions/action-plan']",
+          "presence": "recommended"
+        },
+        {
+          "location": "result.extensions['https://neolaf.ai/xapi/extensions/prediction-error']",
+          "presence": "recommended"
+        }
+      ]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/profiles/kstar/templates/stage-completion",
+      "type": "StatementTemplate",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Stage Completion Statement" },
+      "definition": { "en": "Template for recording completion of a KSTAR stage." },
+      "objectActivityType": "https://neolaf.ai/xapi/activities/kstar-stage",
+      "rules": [
+        {
+          "location": "verb.id",
+          "any": [
+            "https://neolaf.ai/xapi/verbs/understood",
+            "https://neolaf.ai/xapi/verbs/planned",
+            "https://neolaf.ai/xapi/verbs/executed",
+            "https://neolaf.ai/xapi/verbs/validated",
+            "https://neolaf.ai/xapi/verbs/reflected"
+          ]
+        },
+        {
+          "location": "result.extensions['https://neolaf.ai/xapi/extensions/stage-transition']",
+          "presence": "recommended"
+        }
+      ]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/profiles/kstar/templates/cycle-completion",
+      "type": "StatementTemplate",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Cycle Completion Statement" },
+      "definition": { "en": "Template for recording completion of a full KSTAR cycle." },
+      "verb": "https://neolaf.ai/xapi/verbs/completed-cycle",
+      "objectActivityType": "https://neolaf.ai/xapi/activities/kstar-task",
+      "rules": [
+        {
+          "location": "result.extensions['https://neolaf.ai/xapi/extensions/aar']",
+          "presence": "recommended"
+        },
+        {
+          "location": "result.extensions['https://neolaf.ai/xapi/extensions/knowledge-delta']",
+          "presence": "recommended"
+        },
+        {
+          "location": "result.success",
+          "presence": "required"
+        }
+      ]
+    },
+    {
+      "id": "https://neolaf.ai/xapi/profiles/kstar/templates/forecast-statement",
+      "type": "StatementTemplate",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Forecast Statement" },
+      "definition": { "en": "Template for recording a forecast (R̂) before execution." },
+      "verb": "https://neolaf.ai/xapi/verbs/forecasted",
+      "objectActivityType": "https://neolaf.ai/xapi/activities/kstar-task",
+      "rules": [
+        {
+          "location": "context.extensions['https://neolaf.ai/xapi/extensions/forecast']",
+          "presence": "required"
+        },
+        {
+          "location": "context.extensions['https://neolaf.ai/xapi/extensions/action-plan']",
+          "presence": "recommended"
+        }
+      ]
+    }
+  ],
+
+  "patterns": [
+    {
+      "id": "https://neolaf.ai/xapi/profiles/kstar/patterns/standard-cycle",
+      "type": "Pattern",
+      "inScheme": "https://neolaf.ai/xapi/profiles/kstar/v/0.1",
+      "prefLabel": { "en": "Standard KSTAR Cycle" },
+      "definition": { "en": "The standard progression through KSTAR stages: understand → plan → forecast → execute → validate → reflect → complete." },
+      "sequence": [
+        "https://neolaf.ai/xapi/profiles/kstar/templates/stage-completion",
+        "https://neolaf.ai/xapi/profiles/kstar/templates/stage-completion",
+        "https://neolaf.ai/xapi/profiles/kstar/templates/forecast-statement",
+        "https://neolaf.ai/xapi/profiles/kstar/templates/episode-statement",
+        "https://neolaf.ai/xapi/profiles/kstar/templates/stage-completion",
+        "https://neolaf.ai/xapi/profiles/kstar/templates/stage-completion",
+        "https://neolaf.ai/xapi/profiles/kstar/templates/cycle-completion"
+      ]
+    }
+  ]
+}

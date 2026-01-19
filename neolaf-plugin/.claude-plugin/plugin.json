@@ -1,0 +1,20 @@
+{
+  "name": "neolaf",
+  "version": "0.1.0",
+  "description": "NEOLAF Cognitive Agent Framework - KSTAR-based learning, memory, and skill acquisition for intelligent agents",
+  "author": {
+    "name": "NEOLAF Team",
+    "email": "neolaf@example.com"
+  },
+  "keywords": [
+    "kstar",
+    "cognitive-agent",
+    "learning",
+    "memory",
+    "skill-acquisition",
+    "xapi",
+    "agent-framework"
+  ],
+  "repository": "https://github.com/neolaf/neolaf-plugin",
+  "license": "MIT"
+}

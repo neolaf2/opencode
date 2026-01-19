@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://neolaf.org/schema/xapi-statement.json",
+  "title": "xAPI Statement (KSTAR-aligned)",
+  "description": "xAPI statement generated from KSTAR entries for learning record interoperability",
+  "type": "object",
+  "required": ["id", "actor", "verb", "object", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID for this statement"
+    },
+    "actor": {
+      "type": "object",
+      "description": "Agent performing the action (from S_A)",
+      "properties": {
+        "objectType": { "const": "Agent" },
+        "name": { "type": "string" },
+        "mbox": { "type": "string", "format": "email" },
+        "account": {
+          "type": "object",
+          "properties": {
+            "homePage": { "type": "string", "format": "uri" },
+            "name": { "type": "string" }
+          }
+        }
+      }
+    },
+    "verb": {
+      "type": "object",
+      "description": "Action type (mapped from KSTAR stage/action)",
+      "required": ["id", "display"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "IRI identifying the verb",
+          "examples": [
+            "http://adlnet.gov/expapi/verbs/completed",
+            "http://adlnet.gov/expapi/verbs/attempted",
+            "http://adlnet.gov/expapi/verbs/experienced",
+            "https://neolaf.org/xapi/verbs/understood",
+            "https://neolaf.org/xapi/verbs/planned",
+            "https://neolaf.org/xapi/verbs/executed",
+            "https://neolaf.org/xapi/verbs/validated",
+            "https://neolaf.org/xapi/verbs/reflected"
+          ]
+        },
+        "display": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "examples": [{ "en-US": "completed" }]
+        }
+      }
+    },
+    "object": {
+      "type": "object",
+      "description": "Activity/task being performed (from T)",
+      "required": ["objectType", "id"],
+      "properties": {
+        "objectType": { "const": "Activity" },
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "IRI identifying the activity"
+        },
+        "definition": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "format": "uri",
+              "description": "Activity type IRI"
+            },
+            "name": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "description": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "extensions": {
+              "type": "object",
+              "description": "KSTAR-specific extensions",
+              "properties": {
+                "https://neolaf.org/xapi/extensions/kstar-entry-id": { "type": "string" },
+                "https://neolaf.org/xapi/extensions/task-goal": { "type": "string" },
+                "https://neolaf.org/xapi/extensions/success-criteria": { "type": "array" },
+                "https://neolaf.org/xapi/extensions/domain-type": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "description": "Outcome of the activity (from R)",
+      "properties": {
+        "success": { "type": "boolean" },
+        "completion": { "type": "boolean" },
+        "score": {
+          "type": "object",
+          "properties": {
+            "scaled": { "type": "number", "minimum": -1, "maximum": 1 },
+            "raw": { "type": "number" },
+            "min": { "type": "number" },
+            "max": { "type": "number" }
+          }
+        },
+        "duration": {
+          "type": "string",
+          "description": "ISO 8601 duration"
+        },
+        "response": { "type": "string" },
+        "extensions": {
+          "type": "object",
+          "properties": {
+            "https://neolaf.org/xapi/extensions/prediction-error": { "type": "number" },
+            "https://neolaf.org/xapi/extensions/lessons-learned": { "type": "array" },
+            "https://neolaf.org/xapi/extensions/aar-summary": { "type": "string" }
+          }
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Context of the activity (from S)",
+      "properties": {
+        "registration": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Session/registration ID"
+        },
+        "instructor": {
+          "type": "object",
+          "description": "Mentor/supervising agent if any"
+        },
+        "team": {
+          "type": "object",
+          "description": "Multi-agent team context"
+        },
+        "contextActivities": {
+          "type": "object",
+          "properties": {
+            "parent": { "type": "array" },
+            "grouping": { "type": "array" },
+            "category": { "type": "array" },
+            "other": { "type": "array" }
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "properties": {
+            "https://neolaf.org/xapi/extensions/situation-vector": {
+              "type": "object",
+              "description": "Full S vector"
+            },
+            "https://neolaf.org/xapi/extensions/mode": {
+              "enum": ["LEARNING", "PERFORMANCE"]
+            },
+            "https://neolaf.org/xapi/extensions/workflow-type": { "type": "string" },
+            "https://neolaf.org/xapi/extensions/prior-knowledge": { "type": "array" }
+          }
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the experience occurred"
+    },
+    "stored": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the statement was stored"
+    },
+    "authority": {
+      "type": "object",
+      "description": "Agent asserting the statement"
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Additional attachments (artifacts, etc.)"
+    }
+  }
+}

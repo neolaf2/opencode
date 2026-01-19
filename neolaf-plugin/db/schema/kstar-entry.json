@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://neolaf.org/schema/kstar-entry.json",
+  "title": "KSTAR Entry",
+  "description": "Canonical KSTAR memory entry representing a complete cognitive episode",
+  "type": "object",
+  "required": ["id", "K", "S", "T", "A", "R", "metadata"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this entry",
+      "pattern": "^kstar_[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    },
+    "K": {
+      "type": "object",
+      "description": "Knowledge state at time of episode",
+      "properties": {
+        "prior_knowledge": {
+          "type": "array",
+          "description": "Relevant knowledge retrieved before action",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "enum": ["episodic", "semantic", "procedural"] },
+              "content": { "type": "string" },
+              "relevance": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "confidence": {
+          "type": "object",
+          "description": "Domain confidence levels",
+          "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "skills_available": {
+          "type": "array",
+          "description": "Skills available during episode",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "S": {
+      "type": "object",
+      "description": "Situation vector (4 components)",
+      "required": ["S_A", "S_D", "S_P", "S_N"],
+      "properties": {
+        "S_A": {
+          "type": "object",
+          "description": "Actor state",
+          "properties": {
+            "id": { "type": "string" },
+            "role": { "type": "string" },
+            "capabilities": { "type": "object" },
+            "preferences": { "type": "object" },
+            "constraints": { "type": "object" },
+            "goals": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "S_D": {
+          "type": "object",
+          "description": "Domain state",
+          "properties": {
+            "objective": { "type": "string" },
+            "domain_type": { "type": "string" },
+            "resources": { "type": "array" },
+            "requirements": { "type": "object" },
+            "rubrics": { "type": "object" }
+          }
+        },
+        "S_P": {
+          "type": "object",
+          "description": "Protocol state",
+          "properties": {
+            "workflow_type": { "type": "string" },
+            "current_stage": {
+              "enum": ["understand", "plan", "execute", "validate", "reflect", "complete"]
+            },
+            "interaction_pattern": { "type": "string" },
+            "mode": { "enum": ["LEARNING", "PERFORMANCE"] }
+          }
+        },
+        "S_N": {
+          "type": "object",
+          "description": "Now state",
+          "properties": {
+            "timestamp": { "type": "string", "format": "date-time" },
+            "tools_available": { "type": "array" },
+            "time_budget": { "type": ["number", "null"] },
+            "session_context": { "type": "object" }
+          }
+        }
+      }
+    },
+    "T": {
+      "type": "object",
+      "description": "Task specification",
+      "required": ["id", "goal"],
+      "properties": {
+        "id": { "type": "string" },
+        "goal": { "type": "string" },
+        "stage": {
+          "enum": ["understand", "plan", "execute", "validate", "reflect", "complete"]
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "constraints": { "type": "object" },
+        "parent_task": { "type": ["string", "null"] },
+        "subtasks": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "A": {
+      "type": "object",
+      "description": "Action taken (plan + execution)",
+      "properties": {
+        "plan": {
+          "type": "object",
+          "properties": {
+            "actions": { "type": "array" },
+            "resources": { "type": "object" },
+            "dependencies": { "type": "array" }
+          }
+        },
+        "forecast": {
+          "type": "object",
+          "description": "Predicted result R̂",
+          "properties": {
+            "expected_outcome": { "type": "string" },
+            "success_probability": { "type": "number", "minimum": 0, "maximum": 1 },
+            "risks": { "type": "array", "items": { "type": "string" } },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "execution_trace": {
+          "type": "array",
+          "description": "Sequence of executed actions",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action_id": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" },
+              "tool_used": { "type": "string" },
+              "inputs": { "type": "object" },
+              "outputs": { "type": "object" },
+              "duration_ms": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "R": {
+      "type": "object",
+      "description": "Result (observation + learning)",
+      "properties": {
+        "observation": {
+          "type": "object",
+          "properties": {
+            "success": { "type": "boolean" },
+            "outputs": { "type": "object" },
+            "errors": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "prediction_error": {
+          "type": "number",
+          "description": "Delta between R and R̂",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "learning": {
+          "type": "object",
+          "description": "Extracted learning from this episode",
+          "properties": {
+            "lessons": { "type": "array", "items": { "type": "string" } },
+            "knowledge_updates": { "type": "array" },
+            "skill_improvements": { "type": "array" }
+          }
+        },
+        "aar": {
+          "type": "object",
+          "description": "After-Action Review",
+          "properties": {
+            "what_happened": { "type": "string" },
+            "what_worked": { "type": "array", "items": { "type": "string" } },
+            "what_didnt_work": { "type": "array", "items": { "type": "string" } },
+            "lessons_learned": { "type": "array", "items": { "type": "string" } },
+            "recommendations": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["created_at", "version"],
+      "properties": {
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "version": { "type": "string" },
+        "agent_id": { "type": "string" },
+        "session_id": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "parent_entry": { "type": ["string", "null"] },
+        "related_entries": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
